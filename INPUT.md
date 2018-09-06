@@ -1,6 +1,6 @@
 # Separating human and automated activity in computer network traffic data
 
-This reposit contains **python** code used to separate human and automated activity on a single edge within a computer network. 
+This reposit contains *python* code used to separate human and automated activity on a single edge within a computer network. 
 
 The methodology builds up on the algorithm for detection of periodicities suggested in Heard, Rubin-Delanchy and Lawson (2014). A given edge can be classified as automated with significant level $\alpha$ according to the the $p$-value obtained from a Fourier's $g$-test. Using this method, the entire activity observed from the edge is discarded from further analysis. In many instances though, the the activity on edges in NetFlow data is a mixture between human and automated connections. Therefore, a mixture model for classification of the automated and human events on the edge is proposed. 
 
@@ -20,7 +20,7 @@ where $86400$ is the number of seconds in one day. The $x_i$'s are **wrapped arr
 
 The following mixture model is used to make inference on the $z_i$'s:
 \begin{equation*}
-f(t_i|z_i)\propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i} 
+f(t_i|z_i)\propto f_A(x_i)^{z_i}  f_H(y_i)^{1-z_i} 
 \end{equation*}
 
 The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau$ is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
