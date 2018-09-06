@@ -9,12 +9,9 @@ import cps_circle
 import mix_wrapped
 import matplotlib.pyplot as plt
 
-t = collapsed_gibbs(outlook,p=8.00095,n_samp=5000,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
-t = collapsed_gibbs(times,p=4086.49,n_samp=10000,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=2000)
-t = collapsed_gibbs(candy,p=55.66,n_samp=2500,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
-
-t = collapsed_gibbs(outlook_filter,p=20.0008,n_samp=10000,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
-t = collapsed_gibbs(times_filter,p=4078.98,n_samp=4000,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=2000)
+#########################################################################################################################
+## Collapsed Metropolis-within-Gibbs sampler with Reversible Jump steps for separation of human and automated activity ##
+#########################################################################################################################
 
 #### Collapsed Gibbs sampler
 def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=5,mu0=pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=1000):
@@ -226,6 +223,11 @@ def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=5,mu0=pi,tau0=1,alpha=1,beta=1
 				mean_theta[i-burnin-1,c] = float(N-Nz+alpha) / float(N+alpha+beta)
 	return mu, sigma2, tau, ell, cluster/n_samp, evals_array, mean_theta
 
+### Example runs ('outlook' and 'candy') are the imported datasets
+t = collapsed_gibbs(outlook,p=8.00095,n_samp=5000,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
+t = collapsed_gibbs(candy,p=55.66,n_samp=2500,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
+
+### Example plots
 plt.plot(np.transpose(np.apply_along_axis(np.percentile,0,t[5],[1,5,10,90,95,99])[:,0,:]))
 plt.plot(np.apply_along_axis(np.mean,0,t[5])[0])
 plt.show()
