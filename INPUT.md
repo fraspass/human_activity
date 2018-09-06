@@ -1,4 +1,4 @@
-# Statistical methods for eparating human and automated activity in computer network traffic
+# Statistical methods for separating human and automated activity in computer network traffic
 
 This reposit contains *python* code used to separate human and automated activity on a single edge within a computer network. 
 
@@ -20,7 +20,7 @@ where $86400$ is the number of seconds in one day. The $x_i$'s are **wrapped arr
 
 The following mixture model is used to make inference on the $z_i$'s:
 \begin{equation*}
-f(t_i|z_i)\propto f_A(x_i)^{z_i}  f_H(y_i)^{1-z_i} 
+f(t_i|z_i)\propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i} 
 \end{equation*}
 
 The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau$ is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
