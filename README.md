@@ -12,7 +12,7 @@ Assume that <img src="https://rawgit.com/fraspass/human_activity/None/svgs/e2c47
 
 <p align="center"><img src="https://rawgit.com/fraspass/human_activity/None/svgs/702ad402b3a1f9048139b7486d543baa.svg?invert_in_darkmode" align=middle width=472.9659pt height=36.18648pt/></p>
 
-where <img src="https://rawgit.com/fraspass/human_activity/None/svgs/4bda6e2d17a6dd8e156052e83dde1de1.svg?invert_in_darkmode" align=middle width=41.096055pt height=21.18732pt/> is the number of seconds in one day. The <img src="https://rawgit.com/fraspass/human_activity/None/svgs/9fc20fb1d3825674c6a279cb0d5ca636.svg?invert_in_darkmode" align=middle width=14.045955pt height=14.15535pt/> 's are **wrapped arrival times**, and the <img src="https://rawgit.com/fraspass/human_activity/None/svgs/2b442e3e088d1b744730822d18e7aa21.svg?invert_in_darkmode" align=middle width=12.710445pt height=14.15535pt/> 's are **daily arrival times**. 
+where <img src="https://rawgit.com/fraspass/human_activity/None/svgs/4bda6e2d17a6dd8e156052e83dde1de1.svg?invert_in_darkmode" align=middle width=41.096055pt height=21.18732pt/> is the number of seconds in one day. The <img src="https://rawgit.com/fraspass/human_activity/None/svgs/9fc20fb1d3825674c6a279cb0d5ca636.svg?invert_in_darkmode" align=middle width=14.045955pt height=14.15535pt/>'s are **wrapped arrival times**, and the <img src="https://rawgit.com/fraspass/human_activity/None/svgs/2b442e3e088d1b744730822d18e7aa21.svg?invert_in_darkmode" align=middle width=12.710445pt height=14.15535pt/>'s are **daily arrival times**. 
 
 ### Mixture modelling
 
