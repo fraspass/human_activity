@@ -17,13 +17,13 @@ where <img src="https://rawgit.com/fraspass/human_activity/master/svgs/4bda6e2d1
 ### Mixture modelling
 
 The following mixture model is used to make inference on the <img src="https://rawgit.com/fraspass/human_activity/master/svgs/6af8e9329c416994c3690752bde99a7d.svg?invert_in_darkmode" align=middle width=12.295635pt height=14.15535pt/>'s:
-<p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/d0acc48c4b588ad9d078bc57034f0015.svg?invert_in_darkmode" align=middle width=226.7496pt height=18.31236pt/></p>
+<p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/b8a19659f31c92039e9b5da0a4e3b39d.svg?invert_in_darkmode" align=middle width=206.65755pt height=18.31236pt/></p>
 
 The distribution of <img src="https://rawgit.com/fraspass/human_activity/master/svgs/a5db2864f408f1246504f17cd9c63105.svg?invert_in_darkmode" align=middle width=36.107445pt height=24.6576pt/> is chosen to be **wrapped normal**, and for <img src="https://rawgit.com/fraspass/human_activity/master/svgs/04a94bf0af1c46c432a53d344a452748.svg?invert_in_darkmode" align=middle width=37.86783pt height=24.6576pt/>, a **step function** with unknown number <img src="https://rawgit.com/fraspass/human_activity/master/svgs/d30a65b936d8007addc9c789d5a7ae49.svg?invert_in_darkmode" align=middle width=6.8494305pt height=22.83138pt/> of changepoints <img src="https://rawgit.com/fraspass/human_activity/master/svgs/0fe1677705e987cac4f589ed600aa6b3.svg?invert_in_darkmode" align=middle width=9.04695pt height=14.15535pt/> is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
 
 ## Understanding the code
 
-The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler.  
+The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
 
 ## References
 
