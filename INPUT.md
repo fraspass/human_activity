@@ -23,7 +23,7 @@ The following mixture model is used to make inference on the $z_i$'s:
 f(t_i|z_i)\propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i} 
 \end{equation*}
 
-The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a *step function* with unknown number $\ell$ of changepoints $\tau$ is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
+The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau$ is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
 
 ## References
 
