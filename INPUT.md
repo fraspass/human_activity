@@ -20,14 +20,14 @@ where $86400$ is the number of seconds in one day. The $x_i$'s are **wrapped arr
 
 The following mixture model is used to make inference on the $z_i$'s:
 \begin{equation*}
-f(t_i|z_i)\propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i} 
+f(t_i|z_i) \propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i} 
 \end{equation*}
 
 The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau$ is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
 
-![Test Image 8](https://raw.githubusercontent.com/fraspass/human_activity/images/model_graphical.png)
+![image_test](https://raw.githubusercontent.com/fraspass/human_activity/images/model_graphical.png)
 
-Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}^N z_i $,  the conditional posterior is conjugate with the following updated parameters:
+Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}^N z_i$,  the conditional posterior is conjugate with the following updated parameters:
 \begin{align*}
 \tilde{x} &= \sum_{i:z_i=1}\nolimits (x_i+2\pi\kappa_i)/{N_1} \\
 \mu_{N_1} &= \frac{\lambda_0\mu_0+N_1\tilde{x}}{\lambda_0+N_1} \\
