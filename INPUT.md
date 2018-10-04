@@ -27,6 +27,17 @@ The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_
 
 ![alt text](http://fraspass.github.io/files/model_graphical.png)
 
+Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}=N z_i$,  the conditional posterior is conjugate with the following updated parameters:
+\begin{align*}
+\tilde{x} &= \sum_{i:z_i=1}\nolimits (x_i+2\pi\kappa_i)/{N_1} \\
+\mu_{N_1} &= \frac{\lambda_0\mu_0+N_1\tilde{x}}{\lambda_0+N_1} \\
+\lambda_{N_1} &= \lambda_0 + N_1 \\
+\alpha_{N_1} &= \alpha_0 + N_1/2 \\
+\beta_{N_1} &= \beta_0 + \frac{1}{2}\left\{\sum_{i:z_i=1}\nolimits (x_i+2\pi\kappa_i-\tilde{x})^2 + \frac{\lambda_0N_1}{\lambda_0+N_1}(\mu-\mu_0)^2 \right\}
+\end{align*}
+
+Inference for the step function used for the human density uses Reversible Jump Markov Chain Monte Carlo with standard birth-death moves. 
+
 ## Understanding the code
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
