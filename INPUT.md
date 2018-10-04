@@ -43,7 +43,7 @@ Inference for the step function for the human density uses Reversible Jump Marko
 p(\boldsymbol y\vert\bm\tau,\ell) = \frac{c(N,\eta)\Gamma[N-\sum_{j=1}^{\ell-1} N_{\tau_j,\tau_{j+1}}+\eta(2\pi-\tau_{\ell}+\tau_{1})]}{\Gamma[\eta(2\pi-\tau_{\ell}+\tau_{1})](2\pi-\tau_\ell+\tau_1)^{N-\sum_{h=1}^{\ell-1} N_{\tau_h,\tau_{h+1}}}}
 					    \prod_{j=1}^{\ell-1}\frac{\Gamma[N_{\tau_j,\tau_{j+1}}+\eta(\tau_{j+1}-\tau_{j})]}{\Gamma[\eta(\tau_{j+1}-\tau_{j})](\tau_{j+1}-\tau_j)^{N_{\tau_j,\tau_{j+1}}}}  
 \end{equation*}
-where $c(N,\eta)=\Gamma(2\pi\eta)/\Gamma(N+2\pi\eta)$ and $N_{\tau_{j},\tau_{j+1}}=\sum_{i=1}^N\mathds{1}_{[\tau_{j},\tau_{j+1})}(y_i)$. 
+where $c(N,\eta)=\Gamma(2\pi\eta)/\Gamma(N+2\pi\eta)$ and $N_{\tau_{j},\tau_{j+1}}=\sum_{i=1}^N\mathbb{I}_{[\tau_{j},\tau_{j+1})}(y_i)$. 
 
 ## Understanding the code
 
