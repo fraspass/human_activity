@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 #########################################################################################################################
 
 #### Collapsed Gibbs sampler
-def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=5,mu0=pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=1000):
+def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=10,mu0=pi,lambda0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=1000):
 	## Define the matrices containing the parameter values
 	mu = np.zeros([n_samp+burnin,n_chains])
 	sigma2 = np.zeros([n_samp+burnin,n_chains])
@@ -170,14 +170,14 @@ def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=5,mu0=pi,tau0=1,alpha=1,beta=1
 			## Update the parameters for the wrapped normal part
 			x_wrapped = x[z != (L+1)]
 			Nw = N - Nz
-			tau_post = tau0 + Nw
+			lambda_post = lambda0 + Nw
 			xbar = 0.0 if Nw==0 else np.mean(x_wrapped+2*pi*z[z!=(L+1)])
-			mu_post = (tau0*mu0 + Nw*xbar)/tau_post
+			mu_post = (lambda0*mu0 + Nw*xbar)/lambda_post
 			alpha_post = alpha + Nw/2.0
 			vbar = 0.0 if Nw==0 else 1.0/2*Nw*np.var(x_wrapped+2*pi*z[z!=L+1])
-			beta_post = beta + vbar + (Nw*tau0) / float(tau_post) * (xbar - mu0)**2 / 2
+			beta_post = beta + vbar + (Nw*lambda0) / float(lambda_post) * (xbar - mu0)**2 / 2
 			sigma2[i,c] = 1.0/np.random.gamma(alpha_post,1.0/beta_post)
-			mu[i,c] = np.random.normal(mu_post,sqrt(float(sigma2[i,c])/tau_post)) % (2*pi)
+			mu[i,c] = np.random.normal(mu_post,sqrt(float(sigma2[i,c])/lambda_post)) % (2*pi)
 			## Propose a move type for the changepoints and ell
 			y_daily = np.sort(y[z == (L+1)])
 			## Update the likelihoods
@@ -224,8 +224,8 @@ def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=5,mu0=pi,tau0=1,alpha=1,beta=1
 	return mu, sigma2, tau, ell, cluster/n_samp, evals_array, mean_theta
 
 ### Example runs ('outlook' and 'candy') are the imported datasets
-t = collapsed_gibbs(outlook,p=8.00095,n_samp=5000,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
-t = collapsed_gibbs(candy,p=55.66,n_samp=2500,n_chains=1,L=5,mu0=np.pi,tau0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
+t = collapsed_gibbs(outlook,p=8.00095,n_samp=5000,n_chains=1,L=7,mu0=np.pi,lambda0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
+t = collapsed_gibbs(candy,p=55.66,n_samp=2500,n_chains=1,L=7,mu0=np.pi,lambda0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=500)
 
 ### Example plots
 plt.plot(np.transpose(np.apply_along_axis(np.percentile,0,t[5],[1,5,10,90,95,99])[:,0,:]))
