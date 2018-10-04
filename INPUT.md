@@ -25,7 +25,7 @@ f(t_i|z_i)\propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i}
 
 The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau$ is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
 
-![alt text](http://fraspass.github.io/files/model_graphical.png)
+<img src="http://fraspass.github.io/files/model_graphical.png">
 
 Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}^N z_i$,  the conditional posterior is conjugate with the following updated parameters:
 \begin{align*}
