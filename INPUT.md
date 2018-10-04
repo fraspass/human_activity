@@ -41,7 +41,7 @@ The model is summarised in the following picture:
 Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$, Normal Inverse Gamma, i.e. $\mathrm{IG}(\sigma^2\vert\alpha_0,\beta_0) \mathbb{N}(\mu\vert\mu_0,\sigma^2/\lambda_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}^N z_i$,  the conditional posterior is conjugate with the following updated parameters:
 \begin{align*}
 \tilde{x} &= \sum_{i:z_i=1}\nolimits (x_i+2\pi\kappa_i)/{N_1} \\
-\mu_{N_1} &= \frac{\lambda_0\mu_0+N_1\tilde{x}}{\lambda_0+N_1} \\
+\mu_{N_1} &= \frac{\lambda_0\mu_0 + N_1\tilde{x}}{\lambda_0+N_1} \\
 \lambda_{N_1} &= \lambda_0 + N_1 \\
 \alpha_{N_1} &= \alpha_0 + N_1/2 \\
 \beta_{N_1} &= \beta_0 + \frac{1}{2}\left\{\sum_{i:z_i=1}\nolimits (x_i+2\pi\kappa_i-\tilde{x})^2 + \frac{\lambda_0N_1}{\lambda_0+N_1}(\tilde x-\mu_0)^2 \right\}
@@ -59,7 +59,7 @@ where $c(N,\eta)=\Gamma(2\pi\eta)/\Gamma(N+2\pi\eta)$ and $N_{\tau_{j},\tau_{j+1
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
 
-**- Important -** All the parameters in the code have the same names used in the paper, except `z`, which does not correspond to $z_i$, but combines the latent variables $z_i$ and $\kappa_i$ used in the paper. In the code, for a given positive integer $L$, `z`$\in\{-L,\dots,L,L+1\}$. When `z`$=L+1$, then the event is classified as *human* ($z_i=0$), and when `z`$\neq L+1$, then the event is *automated* ($z_i=1$), and the value represents a sample for $\kappa_i$, truncated to $\{-L,\dots,L\}$ for a suitably large $L$. 
+**- Important -** All the parameters in the code have the same names used in the paper, except `z[i]`, which does not correspond to $z_i$, but combines the latent variables $z_i$ and $\kappa_i$ used in the paper. In the code, for a given positive integer $L$, `z[i]`$\in\{-L,\dots,L,L+1\}$. When `z[i]`$=L+1$, then the event is classified as *human* ($z_i=0$), and when `z[i]`$\neq L+1$, then the event is *automated* ($z_i=1$), and the value represents a sample for $\kappa_i$, truncated to $\{-L,\dots,L\}$ for a suitably large $L$. 
 
 ## References
 
