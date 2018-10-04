@@ -58,7 +58,7 @@ The model is summarised in the following picture:
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
 
-**- Important -** All the parameters in the code have the same names used in the paper, except $z_i$. In the code, for a given positive integer $L$, `z`$\in\{-L,\dots,L,L+1\}$ groups together the latent variables $z_i$ and $\kappa_i$ used in the paper. In the code, when `z`$=L+1$, then the event is classified as *human* ($z_i=0$), when `z`$\neq L+1$, then the event is *automated* ($z_i=1$), and the value represents a sample for $\kappa_i$, truncated to $\{-L,\dots,L\}$ for a suitably large $L$. 
+**- Important -** All the parameters in the code have the same names used in the paper, except `z`, which does not correspond to $z_i$, but combines the latent variables $z_i$ and $\kappa_i$ used in the paper. In the code, for a given positive integer $L$, `z`$\in\{-L,\dots,L,L+1\}$. When `z`$=L+1$, then the event is classified as *human* ($z_i=0$), and when `z`$\neq L+1$, then the event is *automated* ($z_i=1$), and the value represents a sample for $\kappa_i$, truncated to $\{-L,\dots,L\}$ for a suitably large $L$. 
 
 ## References
 
