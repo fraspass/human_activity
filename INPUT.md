@@ -27,7 +27,7 @@ The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_
 
 ![alt text](http://fraspass.github.io/files/model_graphical.png)
 
-Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}=N z_i$,  the conditional posterior is conjugate with the following updated parameters:
+Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}^N z_i$,  the conditional posterior is conjugate with the following updated parameters:
 \begin{align*}
 \tilde{x} &= \sum_{i:z_i=1}\nolimits (x_i+2\pi\kappa_i)/{N_1} \\
 \mu_{N_1} &= \frac{\lambda_0\mu_0+N_1\tilde{x}}{\lambda_0+N_1} \\
