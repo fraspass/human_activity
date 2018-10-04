@@ -25,16 +25,12 @@ f(t_i|z_i) \propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i}
 
 The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau_1,\dots,\tau_\ell$ is used. The density of the wrapped normal distribution is:
 \begin{equation*}
-\phi_{\mathrm{WN}}^{[0,2\pi)})(x_i;\mu,\sigma^2)=\sum_{k=-\infty}^\infty \phi(x_i+2\pi k;\mu,\sigma^2)
+\phi_{\mathrm{WN}}^{[0,2\pi)}(x_i;\mu,\sigma^2)=\sum_{k=-\infty}^\infty \phi(x_i+2\pi k;\mu,\sigma^2)
 \end{equation*}
 The circular step function density for the human events is:
 \begin{equation*}
 h(y_i;\boldsymbol h,\boldsymbol \tau,\ell)=\frac{\mathbb{I}_{[0,\tau_{1})\cup[\tau_{\ell},2\pi)}(y_i) h_\ell}{2\pi-\tau_{\ell}+\tau_{1}}+\sum_{j=1}^{\ell-1} \frac{\mathbb{I}_{[\tau_{(j)},\tau_{j+1})}(y) h_j}{\tau_{j+1}-\tau_{j}}
 \end{equation*}
-
-![image_test](images/model_graphical.png)
-
-### Some details on the sampler
 
 In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. Conjugate priors are used for efficient implementation.
 
@@ -54,9 +50,15 @@ p(\boldsymbol{y}\vert\tau_1,\dots,\tau_\ell,\ell) = \frac{c(N,\eta)\Gamma[N-\sum
 
 where $c(N,\eta)=\Gamma(2\pi\eta)/\Gamma(N+2\pi\eta)$ and $N_{\tau_{j},\tau_{j+1}}=\sum_{i=1}^N \mathbb{I}_{[\tau_{j},\tau_{j+1})}(y_i)$. 
 
+The model is summarised in the following picture:
+
+![image_test](images/model_graphical.png)
+
 ## Understanding the code
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
+
+**-- Important --** All the parameters in the code have the same names used in the paper, except $z_i$. In the code, for a given $L$, $z_i\in\{-L,\dots,L,L+1\}$ groups together the latent variable $\kappa_i$ and $z_i$ used in the paper. In the code, when $z_i=L+1$, then the event is classified as *human*, when $z_i\neq L+1$, then the event is *automated*, and the value represents a sample for $\kappa_i$, truncated to $\{-L,\dots,L\}$ for a suitably large $L$. 
 
 ## References
 
