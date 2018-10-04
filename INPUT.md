@@ -34,6 +34,10 @@ h(y_i;\boldsymbol h,\boldsymbol \tau,\ell)=\frac{\mathbb{I}_{[0,\tau_{1})\cup[\t
 
 In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. Conjugate priors are used for efficient implementation.
 
+The model is summarised in the following picture:
+
+![image_test](images/model_graphical.png)
+
 Inference for the wrapped normal part is simple: the prior for $(\mu,\sigma^2)$ is $\mathrm{NIG}(\mu_0,\lambda_0,\alpha_0,\beta_0)$, Normal Inverse Gamma, i.e. $\mathrm{IG}(\sigma^2\vert\alpha_0,\beta_0)\mathbb{N}(\mu\vert\mu_0,\sigma^2/\lambda_0)$. Given sampled values of $z_i$ and $\kappa_i$, with $N_1=\sum_{i=1}^N z_i$,  the conditional posterior is conjugate with the following updated parameters:
 \begin{align*}
 \tilde{x} &= \sum_{i:z_i=1}\nolimits (x_i+2\pi\kappa_i)/{N_1} \\
@@ -50,9 +54,6 @@ p(\boldsymbol{y}\vert\tau_1,\dots,\tau_\ell,\ell) = \frac{c(N,\eta)\Gamma[N-\sum
 
 where $c(N,\eta)=\Gamma(2\pi\eta)/\Gamma(N+2\pi\eta)$ and $N_{\tau_{j},\tau_{j+1}} = \sum_{i=1}^N \mathbb{I}_{[\tau_{j},\tau_{j+1})}(y_i)$. 
 
-The model is summarised in the following picture:
-
-![image_test](images/model_graphical.png)
 
 ## Understanding the code
 
