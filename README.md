@@ -21,7 +21,7 @@ The following mixture model is used to make inference on the <img src="https://r
 
 The distribution of <img src="https://rawgit.com/fraspass/human_activity/None/svgs/a5db2864f408f1246504f17cd9c63105.svg?invert_in_darkmode" align=middle width=36.107445pt height=24.6576pt/> is chosen to be **wrapped normal**, and for <img src="https://rawgit.com/fraspass/human_activity/None/svgs/04a94bf0af1c46c432a53d344a452748.svg?invert_in_darkmode" align=middle width=37.86783pt height=24.6576pt/>, a **step function** with unknown number <img src="https://rawgit.com/fraspass/human_activity/None/svgs/d30a65b936d8007addc9c789d5a7ae49.svg?invert_in_darkmode" align=middle width=6.8494305pt height=22.83138pt/> of changepoints <img src="https://rawgit.com/fraspass/human_activity/None/svgs/0fe1677705e987cac4f589ed600aa6b3.svg?invert_in_darkmode" align=middle width=9.04695pt height=14.15535pt/> is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
 
-![alt text](https://fraspass.github.io/files/model_graphical.png)
+![alt text](http://fraspass.github.io/files/model_graphical.png)
 
 ## Understanding the code
 
