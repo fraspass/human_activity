@@ -25,6 +25,8 @@ f(t_i|z_i)\propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i}
 
 The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau$ is used. Conjugate priors are used for efficient implementation. In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. 
 
+![alt text](https://fraspass.github.io/files/model_graphical.pdf)
+
 ## Understanding the code
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
