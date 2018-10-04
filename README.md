@@ -20,13 +20,9 @@ The following mixture model is used to make inference on the <img src="https://r
 <p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/40d4c0eac68b1ecd5ef441f523b878f4.svg?invert_in_darkmode" align=middle width=206.65755pt height=18.31236pt/></p>
 
 The distribution of <img src="https://rawgit.com/fraspass/human_activity/master/svgs/a5db2864f408f1246504f17cd9c63105.svg?invert_in_darkmode" align=middle width=36.107445pt height=24.6576pt/> is chosen to be **wrapped normal**, and for <img src="https://rawgit.com/fraspass/human_activity/master/svgs/04a94bf0af1c46c432a53d344a452748.svg?invert_in_darkmode" align=middle width=37.86783pt height=24.6576pt/>, a **step function** with unknown number <img src="https://rawgit.com/fraspass/human_activity/master/svgs/d30a65b936d8007addc9c789d5a7ae49.svg?invert_in_darkmode" align=middle width=6.8494305pt height=22.83138pt/> of changepoints <img src="https://rawgit.com/fraspass/human_activity/master/svgs/61cc5c68794cf7506b09230dec69d5d2.svg?invert_in_darkmode" align=middle width=63.77844pt height=14.15535pt/> is used. The density of the wrapped normal distribution is:
-<p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/821ffaa410c7750168089f2ce4eee831.svg?invert_in_darkmode" align=middle width=312.5661pt height=46.644015pt/></p>
+<p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/794d784b6f56607f8f5d31a9806f8cf4.svg?invert_in_darkmode" align=middle width=306.17235pt height=46.644015pt/></p>
 The circular step function density for the human events is:
 <p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/c97d0f2e6c6ccc89bf0ecd311823b29d.svg?invert_in_darkmode" align=middle width=395.0661pt height=50.171385pt/></p>
-
-![image_test](images/model_graphical.png)
-
-### Some details on the sampler
 
 In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. Conjugate priors are used for efficient implementation.
 
@@ -38,9 +34,15 @@ Inference for the step function for the human density uses Reversible Jump Marko
 
 where <img src="https://rawgit.com/fraspass/human_activity/master/svgs/28ff91fb7571bd737f919050404240bd.svg?invert_in_darkmode" align=middle width=215.253555pt height=24.6576pt/> and <img src="https://rawgit.com/fraspass/human_activity/master/svgs/2f371f8f60785da9e3400e8264a02183.svg?invert_in_darkmode" align=middle width=205.251255pt height=32.25618pt/>. 
 
+The model is summarised in the following picture:
+
+![image_test](images/model_graphical.png)
+
 ## Understanding the code
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
+
+**-- Important --** All the parameters in the code have the same names used in the paper, except <img src="https://rawgit.com/fraspass/human_activity/master/svgs/6af8e9329c416994c3690752bde99a7d.svg?invert_in_darkmode" align=middle width=12.295635pt height=14.15535pt/>. In the code, for a given <img src="https://rawgit.com/fraspass/human_activity/master/svgs/ddcb483302ed36a59286424aa5e0be17.svg?invert_in_darkmode" align=middle width=11.18733pt height=22.46574pt/>, <img src="https://rawgit.com/fraspass/human_activity/master/svgs/12b8e3190ef5757da196e12153a2246a.svg?invert_in_darkmode" align=middle width=168.139455pt height=24.6576pt/> groups together the latent variable <img src="https://rawgit.com/fraspass/human_activity/master/svgs/061e7c3be0101eabfbaa013fe337ba95.svg?invert_in_darkmode" align=middle width=14.12202pt height=14.15535pt/> and <img src="https://rawgit.com/fraspass/human_activity/master/svgs/6af8e9329c416994c3690752bde99a7d.svg?invert_in_darkmode" align=middle width=12.295635pt height=14.15535pt/> used in the paper. In the code, when <img src="https://rawgit.com/fraspass/human_activity/master/svgs/ab3c109df683abfc894392c150eb2291.svg?invert_in_darkmode" align=middle width=74.53281pt height=22.46574pt/>, then the event is classified as *human*, when <img src="https://rawgit.com/fraspass/human_activity/master/svgs/a0a4b4f6b922ecbce214e42b73e7c98c.svg?invert_in_darkmode" align=middle width=74.53281pt height=22.83138pt/>, then the event is *automated*, and the value represents a sample for <img src="https://rawgit.com/fraspass/human_activity/master/svgs/061e7c3be0101eabfbaa013fe337ba95.svg?invert_in_darkmode" align=middle width=14.12202pt height=14.15535pt/>, truncated to <img src="https://rawgit.com/fraspass/human_activity/master/svgs/e6273ada5689f427d225a0cef5436d30.svg?invert_in_darkmode" align=middle width=88.12782pt height=24.6576pt/> for a suitably large <img src="https://rawgit.com/fraspass/human_activity/master/svgs/ddcb483302ed36a59286424aa5e0be17.svg?invert_in_darkmode" align=middle width=11.18733pt height=22.46574pt/>. 
 
 ## References
 
