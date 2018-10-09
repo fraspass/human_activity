@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 #########################################################################################################################
 
 #### Collapsed Gibbs sampler
-def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=10,mu0=pi,lambda0=1,alpha=1,beta=1,nu=0.1,eta=1,burnin=1000):
+def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=10,mu0=pi,lambda0=1,alpha=1,beta=1,gam=1,delt=1,nu=0.1,eta=1,burnin=1000):
 	## Define the matrices containing the parameter values
 	mu = np.zeros([n_samp+burnin,n_chains])
 	sigma2 = np.zeros([n_samp+burnin,n_chains])
@@ -119,7 +119,7 @@ def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=10,mu0=pi,lambda0=1,alpha=1,be
 				## Proportions of allocations 
 				Nah = [Na[2*(L+1)-1],sum(Na[:2*(L+1)-1])]
 				## Resample the allocations
-				probs = [(h1 + h2) * h3 for h1, h2, h3 in zip(Nah,[alpha,beta],[prob_human,prob_auto])]
+				probs = [(h1 + h2) * h3 for h1, h2, h3 in zip(Nah,[gam,delt],[prob_human,prob_auto])]
 				probs /= sum(probs)
 				ha = np.random.choice(range(2),p=probs)
 				kappa_probs /= sum(kappa_probs)
@@ -220,7 +220,7 @@ def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=10,mu0=pi,lambda0=1,alpha=1,be
 				bp = np.searchsorted(tau[i,c],evals)
 				bp[bp==len(tau[i,c])] = 0
 				evals_array[i-burnin-1,c] = sm[bp]
-				mean_theta[i-burnin-1,c] = float(N-Nz+alpha) / float(N+alpha+beta)
+				mean_theta[i-burnin-1,c] = float(N-Nz+gam) / float(N+gam+delt)
 	return mu, sigma2, tau, ell, cluster/n_samp, evals_array, mean_theta
 
 ### Example runs ('outlook' and 'candy') are the imported datasets
