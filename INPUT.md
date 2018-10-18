@@ -25,7 +25,7 @@ f(t_i|z_i) \propto f_A(x_i)^{z_i} f_H(y_i)^{1-z_i}
 
 The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_H(\cdot)$, a **step function** with unknown number $\ell$ of changepoints $\tau_1,\dots,\tau_\ell$ is used. The density of the wrapped normal distribution is:
 \begin{equation*}
-\phi_{\mathrm{WN}}^{[0,2\pi)}(x_i;\mu,\sigma^2)=\sum_{k=-\infty}^\infty \phi(x_i+2\pi k;\mu,\sigma^2)
+\phi_{\mathrm{WN}}^{[0,2\pi)}(x_i;\mu,\sigma^2)=\sum_{k=-\infty}^\infty \phi(x_i+2\pi k;\mu, \sigma^2)
 \end{equation*}
 The circular step function density for the human events is:
 \begin{equation*}
