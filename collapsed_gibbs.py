@@ -101,6 +101,7 @@ def collapsed_gibbs(t,p,n_samp=10000,n_chains=3,L=10,mu0=pi,lambda0=1,alpha0=1,b
 				zold = z[j]
 				## Probability that the event is human for different values of zold and bj
 				bj = bin_pos[j]
+				# Compute the probabilities for the human according to the position of the event
 				if zold == (L+1) and bj != 0:
 					prob_human = 1.0/(tau[i-1,c][bj]-tau[i-1,c][bj-1]) * (eta*(tau[i-1,c][bj]-tau[i-1,c][bj-1]) +\
 						Nj[bj] - 1) / (2*pi*eta + Nz - 1)
