@@ -29,7 +29,7 @@ The distribution of $f_A(\cdot)$ is chosen to be **wrapped normal**, and for $f_
 \end{equation*}
 The circular step function density for the human events is:
 \begin{equation*}
-h(y_i;\boldsymbol h,\boldsymbol \tau,\ell)=\frac{\mathbb{I}_{[0,\tau_{1})\cup[\tau_{\ell},2\pi)}(y_i) h_\ell}{2\pi-\tau_{\ell}+\tau_{1}}+\sum_{j=1}^{\ell-1} \frac{\mathbb{I}_{[\tau_{(j)},\tau_{j+1})}(y) h_j}{\tau_{j+1}-\tau_{j}}
+h(y_i;\boldsymbol h,\boldsymbol \tau,\ell)=\frac{\mathbb{I}_{[0,\tau_{1})\cup[\tau_{\ell},2\pi)}(y_i) h_\ell}{2\pi-\tau_{\ell}+\tau_{1}}+\sum_{j=1}^{\ell-1} \frac{\mathbb{I}_{[\tau_{j},\tau_{j+1})}(y) h_j}{\tau_{j+1}-\tau_{j}}
 \end{equation*}
 
 In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. Conjugate priors are used for efficient implementation.

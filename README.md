@@ -22,7 +22,7 @@ The following mixture model is used to make inference on the <img src="https://r
 The distribution of <img src="https://rawgit.com/fraspass/human_activity/master/svgs/a5db2864f408f1246504f17cd9c63105.svg?invert_in_darkmode" align=middle width=36.107445pt height=24.6576pt/> is chosen to be **wrapped normal**, and for <img src="https://rawgit.com/fraspass/human_activity/master/svgs/04a94bf0af1c46c432a53d344a452748.svg?invert_in_darkmode" align=middle width=37.86783pt height=24.6576pt/>, a **step function** with unknown number <img src="https://rawgit.com/fraspass/human_activity/master/svgs/d30a65b936d8007addc9c789d5a7ae49.svg?invert_in_darkmode" align=middle width=6.8494305pt height=22.83138pt/> of changepoints <img src="https://rawgit.com/fraspass/human_activity/master/svgs/61cc5c68794cf7506b09230dec69d5d2.svg?invert_in_darkmode" align=middle width=63.77844pt height=14.15535pt/> is used. The density of the wrapped normal distribution is:
 <p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/4af4609163620931f8786c5e77f96051.svg?invert_in_darkmode" align=middle width=306.17235pt height=46.644015pt/></p>
 The circular step function density for the human events is:
-<p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/c97d0f2e6c6ccc89bf0ecd311823b29d.svg?invert_in_darkmode" align=middle width=395.0661pt height=50.171385pt/></p>
+<p align="center"><img src="https://rawgit.com/fraspass/human_activity/master/svgs/4a841a7d61dae1512379e53401223cbd.svg?invert_in_darkmode" align=middle width=386.16105pt height=50.171385pt/></p>
 
 In the code, a Collapsed Metropolis-within-Gibbs with Reversible Jump steps is used. Conjugate priors are used for efficient implementation.
 
