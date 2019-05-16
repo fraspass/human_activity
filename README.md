@@ -1,4 +1,4 @@
-# Statistical methods for separating human and automated activity in computer network traffic
+# Statistical methods for filtering polling activity in computer network traffic
 
 This reposit contains *python* code used to separate human and automated activity on a single edge within a computer network. 
 
