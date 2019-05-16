@@ -6,6 +6,27 @@ The methodology builds up on the algorithm for detection of periodicities sugges
 
 ## Methodology
 
+### Fourier analysis
+
+Assume that $t_1,\dots,t_N$ are the raw arrival times of events on an edge $X\to Y$, where $X$ and $Y$ are client and server IP addresses. In NetFlow data, the $t_i$'s are expressed in seconds from the Unix epoch (January 1, 1970). From the raw arrival times, the counting process $N(t)$ counts the number of events up to time $t$ from the beginning of the observation period. 
+
+Given $\{N(t),\ t=0,1,\dots,T\}$, where $T$ is the total observation time, the periodogram $\hat{S}^{(p)}(f)$ can be calculated as follows:
+\begin{equation*}
+\hat{S}^{(p)}(f) = \left\vert\frac{1}{T}\sum_{t=1}^T \left(N(t)-N(t-1)-\frac{N(T)}{T}\right)e^{-2\pi\imath ft}\right\vert^2
+\end{equation*}
+
+The periodogram can be easily evaluated at the Fourier frequencies $f_k = k/T,\ k=0,\dots,\lfloor T/2 \rfloor$ using the Fast Fourier Transform (FFT). The presence of periodicities can be assessed using the Fourier's $g$-statistic:
+\begin{equation*}
+g = \frac{\max_{1\leq k\leq\lfloor T/2\rfloor} \hat{S}^{(p)}(f_k)}{\sum_{1\leq k\leq\lfloor T/2\rfloor} \hat{S}^{(p)}(f_k)}
+\end{equation*}
+
+The $p$-value associated with an observed value $g^\star$ of the test statistic for the null hypothesis $H_0$ of no periodicities is:
+\begin{equation*}
+\mathbb P(g>g^\star) = \sum_{j=1}^{\min\{\lfloor 1/g^\star\rfloor,m\}} (-1)^{j-1}\binom{m}{j}(1-jg^\star)^{m-1} \approx 1-(1-\exp\{-mg^\star\} )^{m}
+\end{equation*}
+
+where $m = \lfloor T/2\rfloor$.
+
 ### Transforming the raw arrival times
 
 Assume that $t_1,\dots,t_N$ are the raw arrival times of events on an edge $X\to Y$, where $X$ and $Y$ are client and server IP addresses. Also assume that the edge $X\to Y$ is strongly periodic with periodicity $p$, detected using the Fourier's $g$-test. The indicator variable $z_i$ takes the value $1$ if the event associated with the arrival time $t_i$ is automated, $0$ if it is human. Two quantities are used to make inference on $z_i$:
@@ -54,8 +75,12 @@ p(\boldsymbol{y}\vert\tau_1,\dots,\tau_\ell,\ell) = \frac{c(N,\eta)\Gamma[N-\sum
 
 where $c(N,\eta)=\Gamma(2\pi\eta)/\Gamma(N+2\pi\eta)$ and $N_{\tau_{j},\tau_{j+1}} = \sum_{i=1}^N \mathbb{I}_{[\tau_{j},\tau_{j+1})}(y_i)$. 
 
-
 ## Understanding the code
+
+The periodicities can be calculated as follows:
+```
+cat outlook.txt | ./fourier_test.py
+```
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
 
