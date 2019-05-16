@@ -57,7 +57,7 @@ where <img alt="$c(N,\eta)=\Gamma(2\pi\eta)/\Gamma(N+2\pi\eta)$" src="svgs/28ff9
 
 The periodicities can be calculated as follows:
 ```
-cat outlook.txt | ./fourier_test.py
+cat Datasets/outlook.txt | ./fourier_test.py
 ```
 
 The main part of the code is contained in the file `collapsed_gibbs.py`. The code in `mix_wrapped.py` is used to initialise the algorithm using a uniform - wrapped normal mixture fitted using the EM algorithm. Finally, `cps_circle.py` contains details about the proposals and utility functions used for the Reversible Jump steps for the step function density of the human component in the Gibbs sampler. For details about the periodicity detection procedure and relevant code, see the repository `fraspass/human_activity_julia`.
