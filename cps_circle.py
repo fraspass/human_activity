@@ -6,6 +6,10 @@ from collections import Counter
 import numpy as np
 from numpy import pi
 
+##########################
+## Functions for RJMCMC ##
+##########################
+
 ## Utility function used in the proposals
 def get_left_right_cps_positions(tau,tau_position,y_positions,adding=False):
     # If the proposed tau is smaller than all the others, then set both to 0
