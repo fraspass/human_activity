@@ -5,10 +5,6 @@ import numpy as np
 from numpy import pi,sqrt
 from sklearn.preprocessing import normalize
 
-############################################################
-## Uniform-wrapped normal mixture model with EM algorithm ##
-############################################################
-
 # Density of the wrapped normal
 def dwrpnorm(x,mu,stdev,wrap=2*pi):
   lim_inf = int(np.floor((mu-5*stdev)/wrap)-1)
