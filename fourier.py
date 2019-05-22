@@ -5,6 +5,10 @@ import numpy as np
 from collections import Counter
 from scipy.signal import periodogram
 
+##############################################
+## Fourier g-test for periodicity detection ##
+##############################################
+
 def detect_periodicity(t):
 	## Determine the range in seconds
 	start = int((np.min(t) // 86400) * 86400)

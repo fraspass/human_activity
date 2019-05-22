@@ -5,7 +5,9 @@ import numpy as np
 from mcmc_sampler import collapsed_gibbs
 from fourier import detect_periodicity
 
-###### Model arguments
+###############
+## Main file ##
+###############
 
 # PARSER to give parameter values 
 parser = argparse.ArgumentParser()
@@ -15,7 +17,7 @@ parser = argparse.ArgumentParser()
 # - Parameters for the MCMC
 parser.add_argument("-N","--nsamp", type=int, dest="nsamp", default=20000, help="Integer: number of samples after burnin for each chain, default 20000.")
 parser.add_argument("-B","--nburn", type=int, dest="nburn", default=5000, help="Integer: number of samples after burnin for each chain, default 5000.")
-parser.add_argument("-C","--nchain", type=int, dest="C", default=1, help="Integer: number of chains, default 1.")
+parser.add_argument("-C","--nchain", type=int, dest="nchain", default=1, help="Integer: number of chains, default 1.")
 
 # - NIG prior
 parser.add_argument("-m","--mu", type=float, dest="mu", default=np.pi, help="Float: first parameter of the NIG prior, default pi.")
@@ -29,7 +31,7 @@ parser.add_argument("-d","--delta", type=float, dest="delta", default=1.0, help=
 
 # - Priors on the step function
 parser.add_argument("-e","--eta", type=float, dest="eta", default=1.0, help="Float: concentration parameter of the Dirichlet prior, default 1.0.")
-parser.add_argument("-v","--nu", type=float, dest="nu", default=1.0, help="Float: parameter of the Geometric prior, default 1.0.")
+parser.add_argument("-v","--nu", type=float, dest="nu", default=0.1, help="Float: parameter of the Geometric prior, default 0.1.")
 
 ## Set destination folder for output
 parser.add_argument("-f","--folder", type=str, dest="dest_folder", default="Results", const=True, nargs="?",\
@@ -60,7 +62,7 @@ t = np.loadtxt(sys.stdin)
 p = detect_periodicity(t)
 
 ## Run MCMC
-mcmc_out = collapsed_gibbs(t, p=p['p'], fixed_phase=fixed_phase, n_samp=nsamp, n_chains=nchain, L=L, mu0=np.pi, lambda0=tau, 
+mcmc_out = collapsed_gibbs(t, p=p['p'], n_samp=nsamp, n_chains=nchain, L=5, mu0=np.pi, lambda0=tau, 
 	alpha0=alpha, beta0=beta, gamma0=gamma, delta0=delta, nu=nu, eta=eta, burnin=nburn)
 
 ### Save output

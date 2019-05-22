@@ -5,9 +5,9 @@ import numpy as np
 from numpy import pi,sqrt
 from sklearn.preprocessing import normalize
 
-############################################################
-## Uniform-wrapped normal mixture model with EM algorithm ##
-############################################################
+##########################################
+## Uniform-wrapped normal mixture model ##
+##########################################
 
 # Density of the wrapped normal
 def dwrpnorm(x,mu,stdev,wrap=2*pi):
@@ -17,7 +17,7 @@ def dwrpnorm(x,mu,stdev,wrap=2*pi):
   return sum([norm.pdf(q,mu,stdev)*(x >= 0 and x <= wrap) for q in k_vals])
 
 # Clustering using a uniform-wrapped Gaussian mixture model and the EM algorithm
-def em_wrap_mix(x,mu=3.14,sigma2=1,theta=0.9,eps=0.0001,max_iter=1000,L=20,wrap=2*pi):
+def em_wrap_mix(x,mu=3.14,sigma2=1,theta=0.9,eps=0.0001,max_iter=1000,L=20,wrap=2*pi,verbose=False):
   # Theta
   if theta > 0 and theta < 1:
   	theta = [theta,1-theta]
@@ -54,6 +54,9 @@ def em_wrap_mix(x,mu=3.14,sigma2=1,theta=0.9,eps=0.0001,max_iter=1000,L=20,wrap=
     diff = max([np.abs(mu-mu_old),np.abs(sigma2-sigma2_old),np.abs(theta[0]-theta_old[0])])
     # Update the number of iterations
     iter_num += 1
+    # Print iterations
+    if verbose:
+      print 'Iteration ' + str(iter_num) + '\t' + 'mu: ' + str(mu) + '\t' + 'sigma2: ' + str(sigma2) + '\t' + 'theta: ' + str(theta[0])
   # Assign the wrapped times to clusters using the highest probability
   auto_prob = z[:,:(z.shape[1]-1)].sum(axis=1)
   human_prob = z[:,z.shape[1]-1]
