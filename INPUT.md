@@ -86,6 +86,53 @@ The main part of the code is contained in the file `collapsed_gibbs.py`. The cod
 
 **- Important -** All the parameters in the code have the same names used in the paper, except `z[i]`, which does not correspond to $z_i$, but combines the latent variables $z_i$ and $\kappa_i$ used in the paper. In the code, for a given positive integer $L$, `z[i]`$\in\{-L,\dots,L,L+1\}$. When `z[i]`$=L+1$, then the event is classified as *human* ($z_i=0$), and when `z[i]`$\neq L+1$, then the event is *automated* ($z_i=1$), and the value represents a sample for $\kappa_i$, truncated to $\{-L,\dots,L\}$ for a suitably large $L$. 
 
+## Running the code
+
+From a sequence $t_1,\dots,t_N$ of event times, contained in a file `example_data.txt` (one arrival time per line), the code can be run as follows:
+```
+cat example_data.txt | ./filter_human.py
+```
+
+Several arguments can be passed to `filter_human.py`. Calling `./filter_human.py --help` returns detailed instruction on the possible options:
+```
+usage: filter_human.py [-h] [-N NSAMP] [-B NBURN] [-C NCHAIN] [-m MU] [-t TAU]
+                       [-a ALPHA] [-b BETA] [-g GAMMA] [-d DELTA] [-e ETA]
+                       [-v NU] [-f [DEST_FOLDER]]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -N NSAMP, --nsamp NSAMP
+                        Integer: number of samples after burnin for each
+                        chain, default 20000.
+  -B NBURN, --nburn NBURN
+                        Integer: number of samples after burnin for each
+                        chain, default 5000.
+  -C NCHAIN, --nchain NCHAIN
+                        Integer: number of chains, default 1.
+  -m MU, --mu MU        Float: first parameter of the NIG prior, default pi.
+  -t TAU, --tau TAU     Float: second parameter of the NIG prior, default 1.0.
+  -a ALPHA, --alpha ALPHA
+                        Float: third parameter of the NIG prior, default 1.0.
+  -b BETA, --beta BETA  Float: fourth parameter of the NIG prior, default 1.0.
+  -g GAMMA, --gamma GAMMA
+                        Float: first parameter of the Beta prior on theta,
+                        default 1.0.
+  -d DELTA, --delta DELTA
+                        Float: second parameter of the Beta prior on theta,
+                        default 1.0.
+  -e ETA, --eta ETA     Float: concentration parameter of the Dirichlet prior,
+                        default 1.0.
+  -v NU, --nu NU        Float: parameter of the Geometric prior, default 0.1.
+  -f [DEST_FOLDER], --folder [DEST_FOLDER]
+                        String: name of the destination folder for the output
+                        files
+```
+
+For example, the following call returns results obtained from 2 MCMC chains of length 2000, with burn-in 1000:
+```
+cat example_data.txt | ./filter_human.py -N 2000 -B 1000 -C 2
+```
+
 ## References
 
 * Heard, N.A., Rubin-Delanchy, P.T.G. and Lawson, D.J. (2014). "Filtering automated polling traffic in computer network flow data". Proceedings - 2014 IEEE Joint Intelligence and Security Informatics Conference, JISIC 2014, 268-271. ([Link](https://ieeexplore.ieee.org/document/6975589/))

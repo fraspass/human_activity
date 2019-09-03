@@ -64,6 +64,53 @@ The main part of the code is contained in the file `collapsed_gibbs.py`. The cod
 
 **- Important -** All the parameters in the code have the same names used in the paper, except `z[i]`, which does not correspond to <img alt="$z_i$" src="svgs/6af8e9329c416994c3690752bde99a7d.svg" align="middle" width="12.295635pt" height="14.15535pt"/>, but combines the latent variables <img alt="$z_i$" src="svgs/6af8e9329c416994c3690752bde99a7d.svg" align="middle" width="12.295635pt" height="14.15535pt"/> and <img alt="$\kappa_i$" src="svgs/061e7c3be0101eabfbaa013fe337ba95.svg" align="middle" width="14.12202pt" height="14.15535pt"/> used in the paper. In the code, for a given positive integer <img alt="$L$" src="svgs/ddcb483302ed36a59286424aa5e0be17.svg" align="middle" width="11.18733pt" height="22.46574pt"/>, `z[i]`<img alt="$\in\{-L,\dots,L,L+1\}$" src="svgs/54d41642682aacb167fcee29439be9e2.svg" align="middle" width="150.456405pt" height="24.6576pt"/>. When `z[i]`<img alt="$=L+1$" src="svgs/e2e5e2fce3793186cee0c21e2c25bdbb.svg" align="middle" width="56.849265pt" height="22.46574pt"/>, then the event is classified as *human* (<img alt="$z_i=0$" src="svgs/ebc835e29cd47503f744073a06507e62.svg" align="middle" width="43.25442pt" height="21.18732pt"/>), and when `z[i]`<img alt="$\neq L+1$" src="svgs/a9470acfe48181b1808e6259e2da97b7.svg" align="middle" width="56.849265pt" height="22.83138pt"/>, then the event is *automated* (<img alt="$z_i=1$" src="svgs/828ee044f61b3e43491ac27de061a056.svg" align="middle" width="43.25442pt" height="21.18732pt"/>), and the value represents a sample for <img alt="$\kappa_i$" src="svgs/061e7c3be0101eabfbaa013fe337ba95.svg" align="middle" width="14.12202pt" height="14.15535pt"/>, truncated to <img alt="$\{-L,\dots,L\}$" src="svgs/e6273ada5689f427d225a0cef5436d30.svg" align="middle" width="88.12782pt" height="24.6576pt"/> for a suitably large <img alt="$L$" src="svgs/ddcb483302ed36a59286424aa5e0be17.svg" align="middle" width="11.18733pt" height="22.46574pt"/>. 
 
+## Running the code
+
+From a sequence <img alt="$t_1,\dots,t_N$" src="svgs/e2c473b0627500251619ee3222b5f1ba.svg" align="middle" width="67.4223pt" height="20.22207pt"/> of event times, contained in a file `example_data.txt` (one arrival time per line), the code can be run as follows:
+```
+cat example_data.txt | ./filter_human.py
+```
+
+Several arguments can be passed to `filter_human.py`. Calling `./filter_human.py --help` returns detailed instruction on the possible options:
+```
+usage: filter_human.py [-h] [-N NSAMP] [-B NBURN] [-C NCHAIN] [-m MU] [-t TAU]
+                       [-a ALPHA] [-b BETA] [-g GAMMA] [-d DELTA] [-e ETA]
+                       [-v NU] [-f [DEST_FOLDER]]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -N NSAMP, --nsamp NSAMP
+                        Integer: number of samples after burnin for each
+                        chain, default 20000.
+  -B NBURN, --nburn NBURN
+                        Integer: number of samples after burnin for each
+                        chain, default 5000.
+  -C NCHAIN, --nchain NCHAIN
+                        Integer: number of chains, default 1.
+  -m MU, --mu MU        Float: first parameter of the NIG prior, default pi.
+  -t TAU, --tau TAU     Float: second parameter of the NIG prior, default 1.0.
+  -a ALPHA, --alpha ALPHA
+                        Float: third parameter of the NIG prior, default 1.0.
+  -b BETA, --beta BETA  Float: fourth parameter of the NIG prior, default 1.0.
+  -g GAMMA, --gamma GAMMA
+                        Float: first parameter of the Beta prior on theta,
+                        default 1.0.
+  -d DELTA, --delta DELTA
+                        Float: second parameter of the Beta prior on theta,
+                        default 1.0.
+  -e ETA, --eta ETA     Float: concentration parameter of the Dirichlet prior,
+                        default 1.0.
+  -v NU, --nu NU        Float: parameter of the Geometric prior, default 0.1.
+  -f [DEST_FOLDER], --folder [DEST_FOLDER]
+                        String: name of the destination folder for the output
+                        files
+```
+
+For example, the following call returns results obtained from 2 MCMC chains of length 2000, with burn-in 1000:
+```
+cat example_data.txt | ./filter_human.py -N 2000 -B 1000 -C 2
+```
+
 ## References
 
 * Heard, N.A., Rubin-Delanchy, P.T.G. and Lawson, D.J. (2014). "Filtering automated polling traffic in computer network flow data". Proceedings - 2014 IEEE Joint Intelligence and Security Informatics Conference, JISIC 2014, 268-271. ([Link](https://ieeexplore.ieee.org/document/6975589/))
