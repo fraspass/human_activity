@@ -4,6 +4,7 @@ import argparse
 import numpy as np
 from mcmc_sampler import collapsed_gibbs
 from fourier import detect_periodicity
+import time
 
 ###############
 ## Main file ##
@@ -19,6 +20,29 @@ parser.add_argument("-N","--nsamp", type=int, dest="nsamp", default=20000, help=
 parser.add_argument("-B","--nburn", type=int, dest="nburn", default=5000, help="Integer: number of samples after burnin for each chain, default 5000.")
 parser.add_argument("-C","--nchain", type=int, dest="nchain", default=1, help="Integer: number of chains, default 1.")
 
+# - Add period (if known)
+parser.add_argument("-p","--period", type=float, dest="period", default=0.0, help="Float: periodicity (if known), default: calculated via Fourier test.")
+
+# - Truncate the periodicity
+truncate_periodicity = False
+parser.add_argument("-r", "--trunc", action = 'store_true', dest = "truncate_periodicity", default = truncate_periodicity,
+    help = 'Round the periodicity to 2 decimal digits, default False.')
+
+# - Use the fixed duration model
+fixed_duration = False
+parser.add_argument("-o", "--fixed_duration", action = 'store_true', dest = "fixed_duration", default = fixed_duration,
+    help = 'Add if the fixed duration model should be used, default False.')
+
+# - Analysis using the wrapped Laplace / Gaussian distribution
+laplace = False
+parser.add_argument("-l", "--laplace", action = 'store_true', dest = "laplace", default = laplace,
+    help = 'Add if the wrapped Laplace model should be used, default False.')
+
+# - Analysis using the wrapped Laplace / Gaussian distribution
+shift = False
+parser.add_argument("-s", "--shift", action = 'store_true', dest = "shift", default = shift,
+    help = 'Add if the wrapped events should be shifted by pi, default False.')
+
 # - NIG prior
 parser.add_argument("-m","--mu", type=float, dest="mu", default=np.pi, help="Float: first parameter of the NIG prior, default pi.")
 parser.add_argument("-t","--tau", type=float, dest="tau", default=1.0, help="Float: second parameter of the NIG prior, default 1.0.")
@@ -33,9 +57,12 @@ parser.add_argument("-d","--delta", type=float, dest="delta", default=1.0, help=
 parser.add_argument("-e","--eta", type=float, dest="eta", default=1.0, help="Float: concentration parameter of the Dirichlet prior, default 1.0.")
 parser.add_argument("-v","--nu", type=float, dest="nu", default=0.1, help="Float: parameter of the Geometric prior, default 0.1.")
 
-## Set destination folder for output
+# - Maximum number of kappas to sample
+parser.add_argument("-k","--lmax", type=int, dest="lmax", default=5, help="Integer: maximum (absolute) value for kappa, default 5")
+
+# Set destination folder for output
 parser.add_argument("-f","--folder", type=str, dest="dest_folder", default="Results", const=True, nargs="?",\
-    help="String: name of the destination folder for the output files (*** the folder must exist ***)")
+    help="String: name of the destination folder for the output files.")
 
 ## Parse arguments
 args = parser.parse_args()
@@ -50,22 +77,41 @@ gamma = args.gamma
 delta = args.delta
 eta = args.eta
 nu = args.nu
+per = args.period
+lmax = args.lmax
 dest_folder = args.dest_folder
+if args.fixed_duration:
+    fixed_duration = True
+if args.laplace:
+    laplace = True
+if args.truncate_periodicity:
+    truncate_periodicity = True
+if args.shift:
+    shift = True
 
-# Create output directory if don't exist
+# Create output directory if doesn't exist
 if dest_folder != '' and not os.path.exists(dest_folder):
     os.mkdir(dest_folder)
 
 ## Import dataset
 t = np.loadtxt(sys.stdin)
+
 ## Obtain periodicity
-p = detect_periodicity(t)
+p = detect_periodicity(t)['p'] if per == 0.0 else per
+if truncate_periodicity:
+    p = round(p,2)
 
 ## Run MCMC
-mcmc_out = collapsed_gibbs(t, p=p['p'], n_samp=nsamp, n_chains=nchain, L=5, mu0=np.pi, lambda0=tau, 
-	alpha0=alpha, beta0=beta, gamma0=gamma, delta0=delta, nu=nu, eta=eta, burnin=nburn)
+start = time.time()
+mcmc_out = collapsed_gibbs(t, p=p, fixed_duration=fixed_duration, n_samp=nsamp, n_chains=nchain, L=lmax, laplace=laplace, shift=shift,\
+    mu0=np.pi, lambda0=tau, alpha0=alpha, beta0=beta, gamma0=gamma, delta0=delta, nu=nu, eta=eta, burnin=nburn)
+end = time.time()
+print "Time elapsed:" + '\t' + str(end - start)
 
 ### Save output
+save_x = True
+if save_x:
+    np.savetxt(dest_folder+'/x.txt' if dest_folder != '' else 'x.txt',t,fmt='%f',delimiter=',')
 np.savetxt(dest_folder+'/mu.txt' if dest_folder != '' else 'mu.txt',mcmc_out[0],fmt='%f',delimiter=',')
 np.savetxt(dest_folder+'/sigma.txt' if dest_folder != '' else 'sigma.txt',mcmc_out[1],fmt='%f',delimiter=',')
 np.savetxt(dest_folder+'/ell.txt' if dest_folder != '' else 'ell.txt',mcmc_out[3],fmt='%f',delimiter=',')
