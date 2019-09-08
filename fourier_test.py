@@ -1,34 +1,35 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import sys
 import argparse
 import numpy as np
 from collections import Counter
 from scipy.signal import periodogram
+from fourier import detect_periodicity
+
+## Parser for delta
+full_day = False
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", "--delta", type=float, dest="delta", default=0.0, \
+    help="Resolution of the observations. Default: calculated as the maximal resolution of the observations.")
+parser.add_argument("-f", "--fullday", action = 'store_true', dest = "full_day", default = full_day,
+    help = 'Calculate the periodicity considering full days of observation.')
+args = parser.parse_args()
+delta = args.delta
+if args.full_day:
+    full_day = True
 
 ## Import the times
 t = np.loadtxt(sys.stdin)
 
-## Determine the range in seconds
-start = int((np.min(t) // 86400) * 86400)
-end = int(((np.max(t) // 86400) + 1) * 86400)
-time_seconds = np.arange(start, end)
+## Calculate delta
+if delta == 0.0:
+    delta = 10 ** float(-np.max(np.array([len(str(x).split('.')[1].strip('0')) for x in t])))
+print 'Delta: ' + str(delta)
 
-## Obtain the process dN
-q = Counter(time_seconds[np.searchsorted(time_seconds, t)])
-dN = np.array([q[x] for x in time_seconds])
-dN_star = dN - len(t)/len(time_seconds)
-
-## Calculate the periodogram 
-fk, Sk = periodogram(dN_star)
-m = len(Sk)
-
-## Calculate g-score, estimated p-values and periodicity
-g_fish = np.max(Sk) / np.sum(Sk)
-p = 1/fk[np.argmax(Sk)]
-p_val1 = (1 - (1 - np.exp(-m * g_fish)) ** m)
-p_val2 = 1 - np.exp(-m * np.exp(-g_fish * len(time_seconds) * (m - 1 - np.log(m)) / (m - g_fish * len(time_seconds))))
+## Calculate the periodicity 
+out = detect_periodicity(t, delta = delta, full_day = full_day)
 
 ## Print output
-print('Estimated periodicity:', p)
-print('p-value (Jenkins & Pristley, 1957):', p_val1)
-print('p-value (Rubin-Delanchy & Heard, 2014):', p_val2)
+print 'Estimated periodicity: ' + str(out['p'])
+print 'p-value (Jenkins & Pristley, 1957): ' + str(out['pval'])
+print 'p-value (Rubin-Delanchy & Heard, 2014): ' + str(out['pval_nick'])

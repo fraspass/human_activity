@@ -95,9 +95,10 @@ cat example_data.txt | ./filter_human.py
 
 Several arguments can be passed to `filter_human.py`. Calling `./filter_human.py --help` returns detailed instruction on the possible options:
 ```
-usage: filter_human.py [-h] [-N NSAMP] [-B NBURN] [-C NCHAIN] [-m MU] [-t TAU]
-                       [-a ALPHA] [-b BETA] [-g GAMMA] [-d DELTA] [-e ETA]
-                       [-v NU] [-f [DEST_FOLDER]]
+usage: filter_human.py [-h] [-N NSAMP] [-B NBURN] [-C NCHAIN] [-p PERIOD]
+                       [-l LMAX] [-m MU] [-t TAU] [-a ALPHA] [-b BETA]
+                       [-g GAMMA] [-d DELTA] [-e ETA] [-v NU]
+                       [-f [DEST_FOLDER]]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -109,6 +110,10 @@ optional arguments:
                         chain, default 5000.
   -C NCHAIN, --nchain NCHAIN
                         Integer: number of chains, default 1.
+  -p PERIOD, --period PERIOD
+                        Float: periodicity (if known), default: calculated via
+                        Fourier test.
+  -l LMAX, --lmax LMAX  Integer: maximum (absolute) value for kappa, default 5
   -m MU, --mu MU        Float: first parameter of the NIG prior, default pi.
   -t TAU, --tau TAU     Float: second parameter of the NIG prior, default 1.0.
   -a ALPHA, --alpha ALPHA
@@ -125,7 +130,7 @@ optional arguments:
   -v NU, --nu NU        Float: parameter of the Geometric prior, default 0.1.
   -f [DEST_FOLDER], --folder [DEST_FOLDER]
                         String: name of the destination folder for the output
-                        files
+                        files.
 ```
 
 For example, the following call returns results obtained from 2 MCMC chains of length 2000, with burn-in 1000:
