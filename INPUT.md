@@ -1,4 +1,4 @@
-# Classification of periodic arrivals in event time data: an application to filtering computer network traffic
+# Classification of periodic arrivals in event time data for filtering computer network traffic
 
 This reposit contains *python* code used to separate human and automated activity on a single edge within a computer network. 
 
