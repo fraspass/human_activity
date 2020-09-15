@@ -140,7 +140,7 @@ def propose_insert_changepoint(tau,y_positions,y,likelihoods,nu,eta):
     new_right_lhd = segment_likelihood(location,right_tau_location,new_y_position,right_y_position,len(y),eta)
     # Compute the likelihood ratio
     lhd_ratio = new_left_lhd + new_right_lhd - (likelihoods[0] if tau_position==len(tau) else \
-        likelihoods[tau_position]) + np.log(1-nu) - np.log(len(tau)+1)
+        likelihoods[tau_position]) + np.log(1-nu) ### - np.log(len(tau)+1)
     # If there are no changepoints, then the likelihood ratio has a particular form
     # if len(tau) == 2:
     if len(tau) == 1:
@@ -170,7 +170,7 @@ def propose_delete_changepoint(tau,y_positions,y,likelihoods,nu,eta):
     new_lhd = segment_likelihood(left_tau_location,right_tau_location,left_y_position,right_y_position,len(y),eta)
     # Compute the likelihood ratio
     lhd_ratio = new_lhd - likelihoods[tau_position] - (likelihoods[0] if tau_position==len(tau)-1 else \
-        likelihoods[tau_position+1]) - np.log(1-nu) + np.log(len(tau))
+        likelihoods[tau_position+1]) - np.log(1-nu) ### + np.log(len(tau))
     # If there is only one changepoint, then the likelihood ratio has a particular form
     if len(tau)==1:
         lhd_ratio -= np.log(2.0/3)
